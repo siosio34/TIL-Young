@@ -5,7 +5,7 @@
 - #### 장점
 
   - 컴파일링 되면서 최적화되므로 빠르다.
-  - 컴파일 과정에서 에러감지가능
+  - Type safe 하며 컴파일 과정에서 에러감지가능
 
 - #### 특징
 
@@ -35,4 +35,12 @@
 
   - 주석 작성시  { /* comments */ }
 
-  ​
+  - javaScript Expression
+
+    - javaScript를 사용하는 방법은 그냥 {} wrapping 하면 된다.
+
+  - Naming Convention
+
+    - 모든 React Component는 첫문자가 대문자인 CamelCase 를 사용한다.
+
+      ​
