@@ -162,11 +162,65 @@ s
 - SELECT first_nbame FROM customer c WHERE NOT EXISTS (SEKECT 1 FROM payment p WHAER p.customer_id = c.customer_id)
 ```
 ### Modifying data
+##### INSERT
+```
+- INSERT INTO TABLE(colimn) VALUES (value) => 이런식으로 사용
+- INSERT INTO link_tmp SELECT * FROM link WHERE last_update IS NOT NULL; => 이런식으로 사용해서 기존 데이터에서 NULL 값이 아닌 데이터만 새로운 데이터에 넣을수 있다. 
+```
+##### UPDATE
+```
+- UPDATE table SET column1 = value1 WHERE condition;
+```
+##### UPDATE JOIN
+```
+- UPDATE A SET A.c1 = expression FROM B WHERE A.c2 = B.c2
+- 주의해야될것은 A테이블내용만 갱신된다.
 
-### PostgreSQL import & export
+```
+##### DELETE
+```
+- DELETE FROM table WHERE condition =>  조건에 맞는 row 들을 테이블 내에서 삭제한다.
+- DELETE FROM link USING link_tmp WHERE link.id = link_tmp.id => 이렇게 다른 테이블과 엮어서도 사용가능.
+
+```
+##### UPSERT
+```
+- INSERT + UPDATE 를 합쳐서 UPSERT 라고 한다. 추가할려고 하는 ROW 데이터가 이미 있을시는 UPDATE 를 하고 그렇지 않으면 새로 추가한다.
+- 사용법은 INSERT ON CONFLICT 를 사용하면 된다.
+- INSERT INTO table_name(column_list) VALUES(value_list) ON CONFLICT target action; 
+- target 는 ON CONSTRAINT constraint_name, where, column_name 셋중에 하나로 결정된다.
+- action은 DO NOTHING(겹칠경우 아무것도 안함, DO UPDATE SET column_1 = value_1 WHERE condition(해당 컴럼명 갱신) 
+```
 ### Managing tables
-### PostgreSQL data types in depth
-### Understanding PostgreSQL constraints
-### Conditional expressions & operators
+##### Data Types
+```
+- Boolean
+	- true,false,null 3가지의 상태를 가짐.
+	- boolean 또는 bool 두가지 형태로 모두 선언가능.
+	- 1,yes,y,t,true 모두 true형태로 바꿔줌
+	- 0,no,false,f 모두 fale 형태로 바꿔줌
+- Character(char, varchar, text)
+- 정수, 실수
+- Temporal types(date, time, timestamp, interval
+- UUID(SERIAL 보다 유니크성을 훨씬더 보장한다.)
+- Array
+- JSON(JSON, JSONB 둘다 지원,JSONB 는 삽입할때 느리지만 인덱싱을 지원하고 처리할때 빠르다.)
+- hstore (KEY VALUES PAIR)
+- 기타등등(네트워크 주소, 위도경도데이터)
+
+```
 ### PostgreSQL utilities
-### PostgreSQL recipes
+```
+psql commands
+- psql -d database -U user -W
+user라는 이름으로 해당 database 를 염
+- psql -h host -d database -U user -W
+다른 호스트에 있는 데이터베이스에 접근할때 사용함.
+- \l (현재 서버에 있는 데이터 베이스 리스트들을 불러온다.)
+- \dt (현재 데이터 베이스의 테이블을 불러온다.)
+- \d table_name(테이블의 상세내역보기) 
+- \dn(현재 테이블의 스키마를 볼수 있음.)
+- \df(현재 db에서 사용가능한 함수들을 보여줌)
+- \timing(쿼리 실행시간을 보여줌.)
+- \s 커맨드 히스토리를 보여준다.
+```
