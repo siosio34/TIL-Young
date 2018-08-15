@@ -1,4 +1,6 @@
-# Docker Guides 정리
+# Docker Guides 
+
+https://docs.docker.com/get-started/
 
 ### Dockerfile
 ```
@@ -42,6 +44,17 @@ networks:
 ### docker swarm
 ```
 - 2377 port(docker swarm) 2376 port(docker demon port)니 에러를 유발할수 있는 이 두포트는 사용하지 않도록하자.
+- ssh 에서 에러 발생시 --native-ssh 옵션을 사용하자(docker-machine --native-ssh ssh myvm1)
+- swarm은 한 그룹안 다수의 기기들이 도커를 실행하고 이를 cluster 내에 서로 join한 것을 말함.
+- swarm manager container 정책
+	- emptiest node(머신에 성능에 따라 컨테이너 댓수를 늘림)
+	- global 각각의 기기마다 오로지 한개의 컨테이너만 가지도록함.
+- swarm manager 은 유일하고 우리가 내리는 명령을 실행하거나 다른 기기들이 workers 로써 swarm 안에 join할수 있도록 설정가능
+- workes은 기능 수행을 할뿐 다른 기기들에게 명령을 내리거나 권한을 줄수 없음.
+- swarm 매니저 설정
+	- docker-machine ssh myvm1 "docker swarm init --advertise-addr <myvm1 ip>"
+- swarm workers 설정
+	- docker-machine ssh myvm2 "docker swarm join --token <token> <ip>:2377"
 ```
 
 ### docker swarm 을 이용한 로드밸런싱
