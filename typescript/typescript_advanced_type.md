@@ -41,5 +41,53 @@ let person: Person[] = [
 3. 기본적으론 재할당이 불가능 하지만 타입 aliasing 을 하게되면 가능해짐
 
 ```
+
+### 유니언 타입
+```typescript
+- 2개 이상의 타입을 하나의 타입으로 정의한것이다.
+- 타입A | 타입B 형식으로 선언.
+- 매개변수를 타입별로 나눠서 작업할때 유용하게 사용됨.
+- 매개변수가 유니언 타입일때 안전한 값을 할당할려면 타입 검사를 거쳐 매개변수를 받아야함.
+
+ EX) 적용하지 않았을때
+function myIndexOf(x: number | string, y: string) {
+	return x.indexof(y) // 여기서 오류가난다.
+}
+```
+
+### 문자열 리터럴 타입
+```
+- 사용자가 타입에 정의한 문자열만 할당받을수 있게 하는 타입이다.
+
+type EventType = "keyup" | "mouseover";
+
+- 저렇게 표기하면 keyup 이라는 string  과 mouseover 이라는 string 밖에 할당하지 못한다.
+- 리액트에서 액션에 타입안정성을 보장할때 쓰면좋다.
+```
+
+### lookup 타입
+``` typescript
+- keyof 를 통해 타입 T 의 하위타입을 생성해낸다.
+- interface 랑 같이 쓰면 코드 깔끔히 작업가능.
+
+interface Profile {
+	name: string;
+	gender: string;
+	age: number;
+}
+
+type Profile1 = keyof Profile;
+let pValue1: Profile1 =  "name" (o)
+let pValue1: Profile1 =  "name2" (x)
+
+type Profile2 = keyof Profile[];
+let pValue1: Profile2 =  "length" (o)
+let pValue1: Profile2 =  "push" (o)
+
+type Profile3 = keyof Profile["name"];
+let pValue1 = "length" (o)
+let pValue1 = "length" (x)
+```
+
 ### 참고
 - 타입스크립트 퀵스타트(도서)
