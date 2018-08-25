@@ -89,5 +89,58 @@ let pValue1 = "length" (o)
 let pValue1 = "length" (x)
 ```
 
+### type alias 
+```typescript
+- 기존 타입에 새이름을 짓는다. 
+- 일반적인타입(string ,number) 같은데 써서는 별 의미가 없고 유니언 타입이나 리터럴 타입 같은 다소 복잡한 타입에 사용하면 좋음.
+ex) type User = {
+	id: myId;
+	alias?: myAlias;
+	city: string;
+}
+```
+
+### 제네릭
+```typescript
+- 타입스크립트의 꽃인기능. 이걸 잘 배워두면 리액트에서도 요긴하게 써먹을수 있다.
+- 예를들면 액션 크리에이터 함수를 만든다하면 제네릭을 이용하면 해당 액션에 페이로드가 있든 없는 하나의 함수로 처리가능하게 만들수 있다. 
+- 컴파일 시간에 타입 안정성을 보장한다.
+- 캐스팅과 관련된 코드를 제거할수 있게된다.
+- 제네릭을 이용하면 제네릭 로직을 이용해 재사용이 가능한 코드를 제작할 수 있음.
+
+function arrayConcat<T(타입매개변수)>(string1: T(매개변수타입), string2: T) : T[](리턴형타입) {
+	return array1 + array2; // 이건 컴파일 에러가 뜬다.
+	return String(string1) + String(string2) // 이렇게 매개변수 T로 정해진경우 타입매개변수간의 연산이 지원하지않기때문에 그걸 방지하기위해선 아래와 같이 타입 캐스팅 코드를 써줘야한다. 
+} 
+
+- 매개변수에 넣은 T의 타입에 따라 나머지타입이 결정됨. 
+
+- 그러면 타입캐스팅 코드를 추가없이 타입매개변수(T)간 연산을 할려면 어떻게 해야되는가? 
+
+	1. 타입을 몇가지로 제한한다 . String type으로 제약하기위해 String type 을 상속해본다.
+	-> <T extends string>
+	-> <T extends string | number> (Union type도 가능하다.)
+	
+	근데 이번에도 타입매개변수간의 연산을 지원할 수 없다는 에러가 뜸
+	
+	2. 오버로드 함수를 이용해서 타입매개변수간의 연산을 구현한다.(정답)
+	
+	function concat<T>(strs: T, strs: T): T;
+	function concat<T>(strs: any, strs2: any) {
+		return strs + strs2;
+	}
+	
+- 2개이상의 매개변수를 받는것도 가능하다.
+function put<T, T2>(strs: T, strs2:T2) {}
+그런데 개인적인 생각으로써는 그냥 매개변수 하나 쓰는데 그거를 유니온 타입으로 정의해서 쓰면 더 간단해질거같다.
+
+- 룩업타입을 제네릭 클래스에 적용하기.
+function getValue<T, K extends keyof T>(obj: T, key: K) {
+	return obj[key];
+}
+let numbers = {one:1 ,two:2 ,three: 3};
+console.log(getValue(numbers, "happy")) (x)
+```
+
 ### 참고
 - 타입스크립트 퀵스타트(도서)
